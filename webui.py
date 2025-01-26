@@ -5,13 +5,18 @@ import torch
 from transformers import TextStreamer
 import time
 import config  # 导入 config 模块
+import os
 
 # 创建 Flask 应用
 app = Flask(__name__)
 
+# 读取模型路径
+with open("model_path.txt", "r") as f:
+    MODEL_PATH = f.read().strip()
+
 # 初始化模型
 print("正在加载模型...")
-model = DeepSeekModel()
+model = DeepSeekModel(MODEL_PATH)  # 使用从文件读取的模型路径
 print("模型加载完成！")
 
 # 定义 favicon 路由

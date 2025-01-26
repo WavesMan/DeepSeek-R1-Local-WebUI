@@ -1,10 +1,10 @@
 # model.py
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
-from config import MODEL_PATH, GENERATION_CONFIG
+from config import GENERATION_CONFIG  # 只导入 GENERATION_CONFIG
 
 class DeepSeekModel:
-    def __init__(self, model_path=MODEL_PATH):
+    def __init__(self, model_path):
         # 动态设置设备
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"使用设备: {self.device}")

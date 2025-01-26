@@ -15,7 +15,7 @@ python downloadR1.py
 
 REM 启动 Web 服务
 echo 正在启动 Web 服务...
-python webui.py"
+python webui.py
 
 REM 等待模型加载完成
 echo 等待模型加载完成...
