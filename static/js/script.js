@@ -69,6 +69,18 @@ submitBtn.addEventListener('click', async () => {
     }
 });
 
+// 主题配置
+const THEME_CONFIG = {
+    light_theme: {
+        background_color: "#f4f4f4",
+        text_color: "#333",
+    },
+    dark_theme: {
+        background_color: "#333",
+        text_color: "#f4f4f4",
+    },
+};
+
 // 主题切换逻辑
 themeToggleBtn.addEventListener('click', () => {
     const body = document.body;

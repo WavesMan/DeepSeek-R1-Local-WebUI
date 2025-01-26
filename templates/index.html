@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeek-R1 本地模型WebUI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- <link rel="stylesheet" href="../static/css/styles.css"> -->
-    <!-- 引入 FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -23,7 +21,7 @@
             <button id="submit-btn">发送</button>
         </div>
         <!-- 提示文字 -->
-        <div id="ai-warning">内容由 AI 生成，请仔细甄别</div>
+        <div id="ai-warning">{{ AI_WARNING_MESSAGE }}</div>
     </div>
 
     <!-- GitHub 链接按钮 -->
@@ -37,6 +35,5 @@
     </button>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <!-- <script src="../static/js/script.js"></script> -->
 </body>
 </html>

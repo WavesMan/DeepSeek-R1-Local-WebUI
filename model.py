@@ -1,10 +1,11 @@
 # model.py
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from config import MODEL_PATH, GENERATION_CONFIG
 
 class DeepSeekModel:
-    def __init__(self, model_path="./deepseek_r1_1.5b"):
-        # 检查是否有可用的GPU
+    def __init__(self, model_path=MODEL_PATH):
+        # 动态设置设备
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"使用设备: {self.device}")
 
@@ -17,8 +18,6 @@ class DeepSeekModel:
             reserved_memory = 1 * 1024 ** 3  # 1GB
             max_memory = total_memory - reserved_memory
             memory_fraction = max_memory / total_memory
-
-            # 设置显存使用比例
             torch.cuda.set_per_process_memory_fraction(memory_fraction, device=0)
             print(f"设置显存使用上限: {max_memory / 1024 ** 3:.2f} GB")
 
@@ -30,26 +29,16 @@ class DeepSeekModel:
         self.model = self.model.to(self.device)
 
     def generate_text(self, input_text):
-        # 分词并生成输入张量
         inputs = self.tokenizer(input_text, return_tensors="pt", padding=True, truncation=True).to(self.device)
-        
-        # 创建流式输出器
         streamer = TextStreamer(self.tokenizer, skip_prompt=True, skip_special_tokens=True)
-        
-        # 推理
+
         with torch.no_grad():
             outputs = self.model.generate(
                 **inputs,
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=500,
-                num_beams=1,
-                temperature=0.7,
-                top_k=50,
-                top_p=0.9,
-                do_sample=True,
-                streamer=streamer,  # 启用流式生成
+                **GENERATION_CONFIG,
+                streamer=streamer,
             )
-        
-        # 解码生成结果
+
         generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return generated_text

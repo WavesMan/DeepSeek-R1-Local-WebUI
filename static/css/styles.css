@@ -226,3 +226,40 @@ body.dark-theme .github-link {
 body.dark-theme .github-link:hover {
     background-color: #0056b3; /* 保持悬停背景颜色不变 */
 }
+
+
+
+/* 设置按钮样式 */
+#settings-btn {
+    position: fixed; /* 固定定位 */
+    top: 20px; /* 距离顶部 20px */
+    right: 20px; /* 距离右侧 20px */
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* 宽度 */
+    height: 40px; /* 高度 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    text-decoration: none; /* 去除链接下划线 */
+}
+
+#settings-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Dark 主题下的设置按钮样式 */
+body.dark-theme #settings-btn {
+    background-color: #007bff; /* 保持背景颜色不变 */
+}
+
+body.dark-theme #settings-btn:hover {
+    background-color: #0056b3; /* 保持悬停背景颜色不变 */
+}
