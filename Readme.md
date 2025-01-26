@@ -1,16 +1,15 @@
 # DeepSeek-R1-Local-WebUI
 
-**DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **DeepSeek-R1** 模型进行对话。项目支持流式生成响应，并提供了 Light/Dark 主题切换功能。
-
-本项目当前使用的模型是 **DeepSeek-R1-Distill-Qwen-1.5B**，后续会提供更多模型供选择。
+**DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应（暂不可用），并提供了 Light/Dark 主题切换功能。
 
 ---
 
 ## 项目功能
 
-- **本地模型部署**：使用 Hugging Face 的 `transformers` 库加载并运行 **DeepSeek-R1** 模型。
+- **本地模型部署**：使用 Hugging Face 的 `transformers` 库加载并运行 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型。
 - **Web 交互界面**：通过 Flask 提供 Web 服务，用户可以在浏览器中与模型进行对话。
-- **流式生成（编写中）**：支持实时流式生成模型响应，提升用户体验。
+- **主题切换**：支持 Light/Dark 主题切换，提升用户体验。
+- **模型选择**：提供多个模型供用户选择，适应不同的硬件配置。
 
 ---
 
@@ -25,6 +24,7 @@ DeepSeek-R1
 │     └─ script.js           # 前端交互逻辑
 ├─ templates                 # HTML 模板文件
 │  └─ index.html             # 主页面模板
+├─ config.py                 # 配置文件
 ├─ downloadR1.py             # 模型下载脚本
 ├─ install_requirements.bat  # 依赖安装脚本（Windows）
 ├─ model.py                  # 模型加载与推理逻辑
@@ -43,7 +43,7 @@ DeepSeek-R1
 
 ```bash
 git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
-cd DeepSeek-R1
+cd DeepSeek-R1-Local-WebUI
 ```
 
 #### 2. 安装依赖
@@ -60,7 +60,7 @@ cd DeepSeek-R1
 
 ```bash
 git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
-cd DeepSeek-R1
+cd DeepSeek-R1-Local-WebUI
 ```
 
 #### 2. 安装依赖
@@ -87,7 +87,6 @@ python webui.py
 
 ---
 
-
 ## 依赖说明
 
 - **Python 3.8+**：项目基于 Python 3.8 开发。
@@ -102,7 +101,33 @@ python webui.py
 
 1. **模型下载**：首次运行需要下载 **DeepSeek-R1** 模型，文件较大，请确保网络畅通。
 2. **显存要求**：模型推理需要一定的 GPU 显存，建议使用支持 CUDA 的 GPU。
-3. **流式生成**：流式生成功能依赖于 `TextStreamer`，确保 `transformers` 版本支持该功能。
+3. **流式生成**：流式生成功能暂不可用，后续版本将支持。
+
+---
+
+## 模型选择
+
+| 模型名称                          | 参数量 | 显存需求   | 推荐显卡型号（最低）         |
+|-----------------------------------|--------|------------|------------------------------|
+| DeepSeek-R1-Distill-Qwen-1.5B     | 1.5B   | 4-6 GB     | GTX 1660 Ti、RTX 2060        |
+| DeepSeek-R1-Distill-Qwen-7B       | 7B     | 12-16 GB   | RTX 3060、RTX 3080           |
+| DeepSeek-R1-Distill-Llama-8B      | 8B     | 16-20 GB   | RTX 3080 Ti、RTX 3090        |
+| DeepSeek-R1-Distill-Qwen-14B      | 14B    | 24-32 GB   | RTX 3090、RTX 4090           |
+| DeepSeek-R1-Distill-Qwen-32B      | 32B    | 48-64 GB   | A100、H100                   |
+| DeepSeek-R1-Distill-Llama-70B     | 70B    | 80-128 GB  | A100、H100、MI250X           |
+
+---
+
+## 更新日志
+
+### v1.0.0 (初始版本)
+- **功能**：
+  - 支持本地部署 **DeepSeek-R1** 模型。
+  - 提供 Web 交互界面，用户可通过浏览器与模型对话。
+  - 支持 Light/Dark 主题切换。
+  - 提供多个模型供用户选择，适应不同硬件配置。
+- **已知问题**：
+  - 流式生成功能暂不可用。
 
 ---
 
@@ -116,6 +141,7 @@ python webui.py
 
 ## 许可证
 
+本项目遵循 DeepSeek-R1 的 [MIT 许可证](DeepSeek-R1_LICENSE)
 本项目基于 [MIT 许可证](LICENSE) 开源。
 
 ---
