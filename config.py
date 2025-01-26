@@ -1,8 +1,5 @@
 # config.py
 
-# 模型路径配置
-MODEL_PATH = "./deepseek_r1_1.5b"  # 模型本地路径
-
 # 生成文本的配置
 GENERATION_CONFIG = {
     "max_length": 500,  # 生成文本的最大长度
