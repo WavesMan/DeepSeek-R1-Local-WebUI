@@ -2,7 +2,7 @@
 
 **DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **DeepSeek-R1** 模型进行对话。项目支持流式生成响应，并提供了 Light/Dark 主题切换功能。
 
-本项目当前使用的模型是 **DeepSeek-R1 蒸馏 1.5B**，后续会提供更多模型供选择。
+本项目当前使用的模型是 **DeepSeek-R1-Distill-Qwen-1.5B**，后续会提供更多模型供选择。
 
 ---
 
