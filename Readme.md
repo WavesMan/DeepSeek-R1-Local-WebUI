@@ -1,5 +1,12 @@
 # DeepSeek-R1-Local-WebUI
 
+<div style="text-align:center">
+  <a href="Readme.md">简体中文</a> | <a href="Readme-en.md">English</a>
+</div>
+
+
+---
+
 **DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应（暂不可用），并提供了 Light/Dark 主题切换功能。
 
 ---

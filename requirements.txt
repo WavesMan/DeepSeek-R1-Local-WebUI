@@ -1,7 +1,6 @@
-torch --index-url https://download.pytorch.org/whl/cu118
-torchvision --index-url https://download.pytorch.org/whl/cu118
-torchaudio --index-url https://download.pytorch.org/whl/cu118
+torch==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu118
+torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
 transformers
 accelerate
 sentencepiece
-flask
