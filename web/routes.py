@@ -1,6 +1,7 @@
+# web/routes.py  
 from flask import Blueprint, request, render_template, Response 
 from core.model_manager  import ModelManager 
-from config import MODEL_CONFIG, GENERATION_CONFIG, STREAM_CONFIG 
+from config import MODEL_CONFIG, GENERATION_CONFIG 
 import time 
  
 def create_routes(model_manager):
@@ -43,10 +44,9 @@ def create_routes(model_manager):
                     
                     formatted = decoded.replace("\n",  "<br>").replace(" ", "&nbsp;")
                     yield formatted + " "
-                    time.sleep(STREAM_CONFIG["stream_delay"]) 
-    
+                    
             print(f"生成耗时: {time.time()-start_time:.2f}s") 
-    
+        
         return Response(response_stream(), content_type='text/plain')
     
     return bp 
