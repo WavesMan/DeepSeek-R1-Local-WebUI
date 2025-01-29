@@ -1,5 +1,12 @@
 # DeepSeek-R1-Local-WebUI
 
+<div style="text-align:center">
+  <a href="Readme.md">简体中文</a> | <a href="Readme-en.md">English</a>
+</div>
+
+
+---
+
 **DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应（暂不可用），并提供了 Light/Dark 主题切换功能。
 
 ---
@@ -16,80 +23,120 @@
 ## 项目结构
 
 ```
-DeepSeek-R1
-├─ static                    # 静态资源文件
-│  ├─ css                    # CSS 样式文件
-│  │  └─ styles.css          # 样式表
-│  └─ js                     # JavaScript 文件
-│     └─ script.js           # 前端交互逻辑
-├─ templates                 # HTML 模板文件
-│  └─ index.html             # 主页面模板
-├─ config.py                 # 配置文件
-├─ downloadR1.py             # 模型下载脚本
-├─ install_requirements.bat  # 依赖安装脚本（Windows）
-├─ model.py                  # 模型加载与推理逻辑
-├─ requirements.txt          # Python 依赖列表
-├─ run.bat                   # 项目启动脚本（Windows）
-└─ webui.py                  # Flask Web 服务入口
+DeepSeek-R1-Local-WebUI               
+├─ config                       
+│  ├─ generation.py             
+│  ├─ webui.py                  
+│  └─ __init__.py               
+├─ core                         
+│  ├─ generator.py              
+│  ├─ model_manager.py          
+│  └─ __init__.py                            
+├─ scripts                      
+│  ├─ memory_monitor.py         
+│  └─ model_downloader.py       
+├─ static                       
+│  ├─ css                       
+│  │  └─ styles.css             
+│  └─ js                        
+│     └─ script.js              
+├─ templates                    
+│  └─ index.html                
+├─ web                          
+│  ├─ routes.py                 
+│  ├─ utils.py                  
+│  └─ __init__.py               
+├─ DeepSeek-R1_LICENSE          
+├─ install_dependencies.py      
+├─ LICENSE                      
+├─ model_path.txt               
+├─ Readme-en.md                 
+├─ Readme.md                    
+├─ requirements.txt             
+└─ run.py                       
 ```
 
 ---
 
 ## 安装与运行
 
-### Windows
+### 安装前准备
 
-#### 1. 克隆项目
+访问 [NVIDIA CUDA Toolkit 12.1 Downloads](https://developer.nvidia.com/cuda-12-1-0-download-archive) 根据您的系统下载安装**CUDA Toolkit 12.1**
 
-```bash
-git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
-cd DeepSeek-R1-Local-WebUI
-```
+### #Windows
 
-#### 2. 安装依赖
+#### 手动安装
 
-双击运行 `install_requirements.bat`，脚本会自动创建虚拟环境并安装依赖。
-
-#### 3. 运行
-
-双击运行 `run.bat`，脚本会自动完成下载模型并启动 Web 服务并打开浏览器。
-
-### Linux/Mac
-
-#### 1. 克隆项目
+1. 克隆项目
 
 ```bash
 git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
 cd DeepSeek-R1-Local-WebUI
 ```
 
-#### 2. 安装依赖
+2. 安装依赖
 
-##### 手动安装（Linux/Mac）
 ```bash
-python -m venv deepseek_env       # 创建虚拟环境
-source deepseek_env/bin/activate  # 激活虚拟环境
-pip install -r requirements.txt   # 安装依赖
+py -3.11 -m venv deepseek_env       # 创建虚拟环境
+.\deepseek_env\Scripts\activate     # 激活虚拟环境
+pip install -r requirements.txt     # 安装依赖
 ```
 
-#### 3. 下载模型
+3. 下载模型
 
 运行以下脚本下载 **DeepSeek-R1** 模型：
 ```bash
-python downloadR1.py
+python scripts\model_downloader.py
 ```
 
-#### 4. 手动启动（Linux/Mac）
+4. 手动启动（Windows）
 ```bash
-python webui.py
+python run.py
 ```
+
+5. 访问WebUI
+访问 `http://127.0.0.1:5000` 即可使用 WebUI。
+
+
+### #Linux/Mac
+
+1. 克隆项目
+
+```bash
+git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
+cd DeepSeek-R1-Local-WebUI
+```
+
+2. 安装依赖
+
+```bash
+python -m venv deepseek_env       # 创建虚拟环境
+source deepseek_env/bin/activate  # 激活虚拟环境
+python install_dependencies.py   # 安装依赖
+```
+
+3. 下载模型
+
+运行以下脚本下载 **DeepSeek-R1** 模型：
+```bash
+python scripts\model_downloader.py
+```
+
+4. 手动启动（Linux/Mac）
+```bash
+python run.py
+```
+访问 `http://127.0.0.1:5000` 即可使用 WebUI。
+
+5. 访问WebUI
 访问 `http://127.0.0.1:5000` 即可使用 WebUI。
 
 ---
 
 ## 依赖说明
 
-- **Python 3.8+**：项目基于 Python 3.8 开发。
+- **Python 3.11+**：项目基于 Python 3.11 开发，经测试Python 3.9及以下版本会出现重大错误。**推荐您使用 Python 3.11**。
 - **Flask**：用于提供 Web 服务。
 - **Transformers**：用于加载和运行 **DeepSeek-R1** 模型。
 - **Torch**：用于模型推理的深度学习框架。
@@ -128,25 +175,45 @@ python webui.py
   - 提供多个模型供用户选择，适应不同硬件配置。
 - **已知问题**：
   - 流式生成功能暂不可用。
+  
+### v1.5.0
+- **主要改进**
+  - 代码重构：优化项目结构，提高可读性和可维护性。
+  - UI 改进：提供更现代化的界面交互，增强用户体验。
+  - 性能优化：减少资源占用，提高运行效率。
+  - 模块化设计：引入更清晰的模块划分，方便功能扩展。
+  - 兼容性增强：改进对不同环境的适配性，支持更多平台。
+
+- **重要变更**
+  - 配置方式：重构后的 `v1.5.0 版本` 采用新的配置格式
+  - API 变更：部分 API 接口有所调整，原有 `v1.0.0 版本` 的用户在迁移时需适配新的 API 规则。
 
 ---
 
 ## 配置项说明
 
-用户可以通过修改 `config.py` 文件来自定义项目的配置。以下是 `config.py` 中的配置项及其说明：
+### 1. 基础配置(config/__init__.py)
+| 参数名        | 默认值         | 可填参数/参数范围        | 功能说明        |
+|---------------|----------------|-----------------------|----------------|
+| - `reserved_memory`  | `1`    | 0 - infinite | 预留显存，以防止模型加载失败。 |
+| - `input_max_length` | `2000` | 正整数 | 输入文本的最大长度。                |
+| - `min_length` | `1` | 正整数  | 生成文本的最小长度。                         |
 
-| 参数名               | 默认值                  | 可填参数/参数范围           | 功能说明                                                                 |
-|----------------------|-------------------------|----------------------------|--------------------------------------------------------------------------|
-| - `max_length`       | `500`                  | 正整数                     | 生成文本的最大长度。                                                     |
-| - `num_beams`        | `1`                    | 正整数                     | Beam Search 的 beam 数量，用于控制生成文本的多样性。                     |
-| - `temperature`      | `0.7`                  | 0.0 到 1.0                 | 温度参数，控制生成文本的随机性。值越小，生成的文本越确定；值越大，越随机。|
-| - `top_k`            | `50`                   | 正整数                     | Top-K 采样参数，控制生成文本时考虑的词汇数量。                           |
-| - `top_p`            | `0.9`                  | 0.0 到 1.0                 | Top-P 采样参数，控制生成文本时的累积概率阈值。                           |
-| - `do_sample`        | `True`                 | `True` 或 `False`          | 是否使用采样生成文本。若为 `False`，则使用贪婪搜索。                     |
-| - `host`             | `"127.0.0.1"`          | 字符串（IP 地址）          | WebUI 服务的主机地址。                                                   |
-| - `port`             | `5000`                 | 1024 到 65535              | WebUI 服务的端口号。                                                     |
-| - `stream_delay`     | `0.1`                  | 正浮点数                   | 流式生成时的延迟时间（秒），控制生成文本的输出速度。                     |
-| `AI_WARNING_MESSAGE` | `"内容由 AI 生成，请仔细甄别"` | 字符串                     | 在 WebUI 中显示的 AI 生成内容提示信息。                                  |
+### 2. 模型配置(config/generation.py)
+| 参数名        | 默认值         | 可填参数/参数范围        | 功能说明        |
+|---------------|----------------|-----------------------|----------------|
+| - `max_length`       | `500`   | 正整数              | 生成文本的最大长度。                                                 |
+| - `num_beams`        | `1`     |正整数              | Beam Search 的 beam 数量，用于控制生成文本的多样性。                   |
+| - `temperature`      | `0.7`   | 0.0 到 1.0         | 温度参数，控制生成文本的随机性。值越小，生成的文本越确定；值越大，越随机。|
+| - `top_k`            | `50`    | 正整数             | Top-K 采样参数，控制生成文本时考虑的词汇数量。                         |
+| - `top_p`            | `0.9`     |0.0 到 1.0          |Top-P 采样参数，控制生成文本时的累积概率阈值。                        |  
+| - `do_sample`        | `True`  | `True` 或 `False`  | 是否使用采样生成文本。若为 `False`，则使用贪婪搜索。                    |
+
+### 3. WebUI 配置(config/webui.py)
+| 参数名        | 默认值         | 可填参数/参数范围        | 功能说明        |
+|---------------|----------------|-----------------------|----------------|
+| - `host`             | `"127.0.0.1"`          | 字符串（IP 地址）          | WebUI 服务的主机地址。    |
+| - `port`             | `5000`                 | 1024 到 65535              | WebUI 服务的端口号。     |
 
 ---
 
