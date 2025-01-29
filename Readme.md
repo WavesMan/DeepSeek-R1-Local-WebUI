@@ -96,7 +96,7 @@ python webui.py
 
 ## 依赖说明
 
-- **Python 3.8+**：项目基于 Python 3.8 开发。
+- **Python 3.11+**：项目基于 Python 3.11 开发，经测试Python 3.9及以下版本会出现重大错误。
 - **Flask**：用于提供 Web 服务。
 - **Transformers**：用于加载和运行 **DeepSeek-R1** 模型。
 - **Torch**：用于模型推理的深度学习框架。
