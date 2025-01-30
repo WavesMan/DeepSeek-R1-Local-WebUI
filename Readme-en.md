@@ -75,9 +75,9 @@ cd DeepSeek-R1-Local-WebUI
 
 3. Install dependencies
  ```bash
- py -3.11 -m venv deepseek_env        # Create a virtual environment
+ py -3.11 -m venv deepseek_env       # Create a virtual environment
 .\deepseek_env\Scripts\activate      # Activate the virtual environment
-pip install -r requirements.txt      # Install dependencies
+python install_dependencies.py       # Install dependencies
 ```
 
 1. Download the model
@@ -103,9 +103,9 @@ cd DeepSeek-R1-Local-WebUI
 
 2. Install dependencies
 ```sh
-python -m venv deepseek_env       # Create a virtual environment
-source deepseek_env/bin/activate  # Activate the virtual environment
-python install_dependencies.py   # Install dependencies
+python -m venv deepseek_env        # Create a virtual environment
+source deepseek_env/bin/activate   # Activate the virtual environment
+python install_dependencies.py     # Install dependencies
 ```
 
 3. Download the model

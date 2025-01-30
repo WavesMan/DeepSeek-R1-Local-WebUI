@@ -78,9 +78,9 @@ cd DeepSeek-R1-Local-WebUI
 2. 安装依赖
 
 ```bash
-py -3.11 -m venv deepseek_env       # 创建虚拟环境
-.\deepseek_env\Scripts\activate     # 激活虚拟环境
-pip install -r requirements.txt     # 安装依赖
+py -3.11 -m venv deepseek_env        # 创建虚拟环境
+.\deepseek_env\Scripts\activate      # 激活虚拟环境
+python install_dependencies.py       # 安装依赖
 ```
 
 3. 下载模型
@@ -111,9 +111,9 @@ cd DeepSeek-R1-Local-WebUI
 2. 安装依赖
 
 ```bash
-python -m venv deepseek_env       # 创建虚拟环境
-source deepseek_env/bin/activate  # 激活虚拟环境
-python install_dependencies.py   # 安装依赖
+python -m venv deepseek_env        # 创建虚拟环境
+source deepseek_env/bin/activate   # 激活虚拟环境
+python install_dependencies.py     # 安装依赖
 ```
 
 3. 下载模型
