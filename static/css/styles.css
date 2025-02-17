@@ -263,3 +263,39 @@ body.dark-theme #settings-btn {
 body.dark-theme #settings-btn:hover {
     background-color: #0056b3; /* 保持悬停背景颜色不变 */
 }
+
+/* static/css/styles.css 新增样式 */
+.loading-indicator {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    margin: 10px auto;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    font-size: 14px;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ddd;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Dark主题适配 */
+body.dark-theme .loading-indicator {
+    background-color: #444;
+    color: #ccc;
+}
+body.dark-theme .loading-spinner {
+    border-top-color: #4dabf7;
+}

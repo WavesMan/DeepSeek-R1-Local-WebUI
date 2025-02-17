@@ -1,9 +1,25 @@
-from flask import Flask 
-from config import WEBUI_CONFIG 
-from web.routes  import create_routes 
-import torch 
-import os 
- 
+# run.py
+from flask import Flask
+from core.model_manager import ModelManager
+import os
+import torch
+import platform
+
+def print_hardware_report():
+    """打印硬件报告"""
+    print("\n[硬件检测报告]")
+    print(f"PyTorch版本: {torch.__version__}")
+    if torch.cuda.is_available():
+        print(f"CUDA版本: {torch.version.cuda}")
+        print(f"检测到 {torch.cuda.device_count()} 个GPU:")
+        for i in range(torch.cuda.device_count()):
+            prop = torch.cuda.get_device_properties(i)
+            print(f"  GPU {i}: {prop.name}")
+            print(f"    显存总量: {prop.total_memory/1024**3:.1f}GB")
+            print(f"    当前占用: {torch.cuda.memory_allocated(i)/1024**3:.1f}GB")
+    else:
+        print("未检测到CUDA设备")
+
 def select_model():
     """让用户选择要使用的模型"""
     model_dir = "models"
@@ -45,20 +61,30 @@ def print_hardware_report():
  
 if __name__ == "__main__":
     print_hardware_report()
-    
-    # 让用户选择模型 
     selected_model = select_model()
     
-    # 加载选定的模型 
-    from core.model_manager  import ModelManager 
-    model_manager = ModelManager(os.path.join("models",  selected_model))
+    from core.model_manager import ModelManager
+    model_manager = ModelManager(os.path.join("models", selected_model))
     
-    app = Flask(__name__)
-    app.register_blueprint(create_routes(model_manager)) 
+    # 关键修改：正确初始化Flask应用
+    app = Flask(__name__,
+        template_folder='templates',
+        static_folder='static',
+        static_url_path='/static'
+    )
     
-    print("\n[服务启动参数]")
+    from web.routes import create_routes
+    app.register_blueprint(create_routes(model_manager))
+    
+    # 打印调试信息
+    print("\n=== 当前Web配置 ===")
+    from config import WEBUI_CONFIG
     print(f"  Host: {WEBUI_CONFIG['host']}")
     print(f"  Port: {WEBUI_CONFIG['port']}")
-    print(f"  Debug模式: {'开启' if WEBUI_CONFIG['debug'] else '关闭'}\n")
+    print(f"  Debug模式: {'开启' if WEBUI_CONFIG['debug'] else '关闭'}")
     
-    app.run(**WEBUI_CONFIG) 
+    print("\n=== 已注册路由 ===")
+    for rule in app.url_map.iter_rules():
+        print(f"{rule.endpoint}: {rule}")
+    
+    app.run(**WEBUI_CONFIG)

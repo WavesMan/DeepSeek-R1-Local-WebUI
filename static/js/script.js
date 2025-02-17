@@ -1,94 +1,170 @@
 // static/js/script.js
-const chatContainer = document.getElementById('chat-container');
-const inputText = document.getElementById('input-text');
-const submitBtn = document.getElementById('submit-btn');
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
+document.addEventListener('DOMContentLoaded', () => {
+    const chatContainer = document.getElementById('chat-container');
+    const inputField = document.getElementById('input-text');
+    const sendButton = document.getElementById('submit-btn');
+    let isGenerating = false;
+    let loadingIndicator = null;
 
-// 添加消息到对话历史
-function addMessage(role, content) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', `${role}-message`);
+    // 发送消息
+    async function sendMessage() {
+        if (isGenerating) return;
+        
+        const userInput = inputField.value.trim();
+        if (!userInput) return;
 
-    if (role === 'user') {
-        // 用户消息
-        messageDiv.textContent = `用户: \n \t${content}`;
-    } else {
-        // 模型消息
-        const header = document.createElement('div');
-        header.classList.add('bot-message-header');
-        header.textContent = '模型:';
+        isGenerating = true;
+        sendButton.disabled = true;
+        
+        try {
+            // 添加用户消息
+            addMessage('user', userInput);
+            inputField.value = '';
+            
+            // 创建加载提示
+            loadingIndicator = createLoadingIndicator();
+            chatContainer.appendChild(loadingIndicator);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
-        const contentDiv = document.createElement('div');
-        contentDiv.classList.add('bot-message-content');
+            // 创建机器人消息容器
+            const botMessageDiv = createBotMessageElement();
 
-        // 直接展示模型输出的原始内容
-        contentDiv.innerHTML = content.replace(/<br>/g, "\n").replace(/&nbsp;/g, " "); // 还原换行和空格
-        contentDiv.style.whiteSpace = "pre-wrap"; // 保留换行和空格
+            // 发送API请求
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/x-ndjson'
+                },
+                body: JSON.stringify({ message: userInput })
+            });
 
-        messageDiv.appendChild(header);
-        messageDiv.appendChild(contentDiv);
-    }
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-    chatContainer.appendChild(messageDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight; // 自动滚动到底部
-}
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
 
-// 处理用户输入
-submitBtn.addEventListener('click', async () => {
-    const userInput = inputText.value.trim();
-    if (!userInput) return;
+                buffer += decoder.decode(value, { stream: true });
+                const chunks = buffer.split('\n');
+                
+                chunks.slice(0, -1).forEach(chunkStr => {
+                    try {
+                        const chunk = JSON.parse(chunkStr);
+                        if (chunk.error) {
+                            updateBotMessage(botMessageDiv, `错误: ${chunk.error}`, true);
+                        } else if (chunk.is_end) {
+                            finalizeMessage(botMessageDiv, chunk.metrics);
+                        } else {
+                            appendToMessage(botMessageDiv, chunk.content);
+                        }
+                    } catch (e) {
+                        console.error('解析错误:', e);
+                    }
+                });
+                
+                buffer = chunks[chunks.length - 1];
+            }
 
-    // 清空输入框
-    inputText.value = '';
-
-    // 添加用户消息
-    addMessage('user', userInput);
-
-    // 发送请求到服务器
-    const response = await fetch('/generate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `input_text=${encodeURIComponent(userInput)}`,
-    });
-
-    if (response.ok) {
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let botMessage = '';
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            const text = decoder.decode(value);
-            botMessage += text;
-            addMessage('bot', botMessage); // 实时更新模型消息
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            // 始终移除加载提示
+            if (loadingIndicator && loadingIndicator.parentNode) {
+                loadingIndicator.remove();
+            }
+            isGenerating = false;
+            sendButton.disabled = false;
         }
     }
-});
 
-// 主题配置
-const THEME_CONFIG = {
-    light_theme: {
-        background_color: "#f4f4f4",
-        text_color: "#333",
-    },
-    dark_theme: {
-        background_color: "#333",
-        text_color: "#f4f4f4",
-    },
-};
-
-// 主题切换逻辑
-themeToggleBtn.addEventListener('click', () => {
-    const body = document.body;
-    if (body.classList.contains('dark-theme')) {
-        body.classList.remove('dark-theme');
-        body.classList.add('light-theme');
-    } else {
-        body.classList.remove('light-theme');
-        body.classList.add('dark-theme');
+    // 添加用户消息
+    function addMessage(role, content) {
+        const div = document.createElement('div');
+        div.className = `message ${role}-message`;
+        div.textContent = `${role === 'user' ? '用户: ' : '模型: '}${content}`;
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+
+    // 创建加载提示
+    function createLoadingIndicator() {
+        const container = document.createElement('div');
+        container.className = 'message loading-indicator';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'loading-spinner';
+        
+        const text = document.createElement('span');
+        text.textContent = '正在生成内容...';
+        
+        container.append(spinner, text);
+        return container;
+    }
+
+    // 创建机器人消息元素
+    function createBotMessageElement() {
+        const container = document.createElement('div');
+        container.className = 'message bot-message';
+        
+        const header = document.createElement('div');
+        header.className = 'bot-message-header';
+        header.textContent = '模型:';
+        
+        const content = document.createElement('div');
+        content.className = 'bot-message-content';
+        
+        container.append(header, content);
+        chatContainer.appendChild(container);
+        return { container, content };
+    }
+
+    // 追加消息内容
+    function appendToMessage(container, text) {
+        const textNode = document.createTextNode(text);
+        container.content.appendChild(textNode);
+        
+        // 触发浏览器重绘以确保实时显示
+        void container.content.offsetHeight;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // 完成处理
+    function finalizeMessage(container, metrics) {
+        // 移除加载提示
+        if (loadingIndicator && loadingIndicator.parentNode) {
+            loadingIndicator.remove();
+        }
+        const time = metrics ? metrics.time_cost.toFixed(2) : '未知';
+        console.log(`生成完成，耗时: ${time}秒`);
+        container.container.classList.add('complete');
+    }
+
+    // 错误处理
+    function showError(message) {
+        // 移除加载提示
+        if (loadingIndicator && loadingIndicator.parentNode) {
+            loadingIndicator.remove();
+        }
+        const errDiv = document.createElement('div');
+        errDiv.className = 'error-message';
+        errDiv.textContent = `错误: ${message}`;
+        chatContainer.appendChild(errDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // 事件监听
+    sendButton.addEventListener('click', sendMessage);
+    inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
 });
