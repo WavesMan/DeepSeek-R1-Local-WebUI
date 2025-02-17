@@ -179,6 +179,13 @@ Visit `http://127.0.0.1:5000` to use the WebUI.
   - **Configuration:** Restructured v1.5.0 uses a new configuration format.
   - **API Changes:** Some API endpoints have been adjusted; users transitioning from v1.0.0 need to adapt to the new API rules.
 
+### v1.6.0
+
+- **Main Improvements:**
+  - Codebase refactoring: Optimized frontend-backend communication via APIs to improve maintainability.
+  - UI enhancement: Added a "Generating content..." real-time status indicator to elevate user experience.
+  - Streaming transmission & generation: Implemented streaming support for content delivery and generation, ensuring smoother interactions.
+
 ---
 
 ## Configuration Items Explanation
