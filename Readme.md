@@ -7,7 +7,7 @@
 
 ---
 
-**DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应（暂不可用），并提供了 Light/Dark 主题切换功能。
+**DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应，并提供了 Light/Dark 主题切换功能。
 
 ---
 
@@ -187,6 +187,19 @@ python run.py
 - **重要变更**
   - 配置方式：重构后的 `v1.5.0 版本` 采用新的配置格式
   - API 变更：部分 API 接口有所调整，原有 `v1.0.0 版本` 的用户在迁移时需适配新的 API 规则。
+
+### v1.6.0
+- **主要改进**
+  - 代码部分重构：优化前后端传导方式为API，提高可维护性。
+  - UI 改进：增加了一个“正在生成内容...”UI提示，增强用户体验。
+  - 流式传输、生成：支持流式传输、生成，提升用户体验。
+
+### v1.6.1
+- **主要改进**
+  - 修复存在的BUG
+  - 修改`scripts\model_downloader.py`中的依赖下载缺失问题
+- **问题解释**
+  - 对于 [#3](#3) 中的问题，1.5B及其他量化模型（未测试存在哪些模型）由于其量化性质，在长期运行后出现“答非所问”问题是模型问题。出现此问题建议您重新下载模型，并且运行`pip uninstall transformers`后再执行`python scripts\model_downloader.py`重新安装依赖。
 
 ---
 

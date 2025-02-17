@@ -66,5 +66,5 @@ if __name__ == "__main__":
     selected_model = get_user_choice()
     model_path = download_model(selected_model)
     
-    print("\n提示：请将以下路径复制到config.py的MODEL_CONFIG中：")
-    print(f"model_path = '{model_path}'")
+    # print("\n提示：请将以下路径复制到config.py的MODEL_CONFIG中：")
+    # print(f"model_path = '{model_path}'")

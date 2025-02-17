@@ -6,7 +6,7 @@
 
 ---
 
-**DeepSeek-R1-Local-WebUI** is a local model deployment project based on Flask, providing an interactive Web interface for conversations with the **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** model. The project supports streaming responses (currently unavailable) and features Light/Dark theme switching. For more details, please visit .
+**DeepSeek-R1-Local-WebUI** is a local model deployment project based on Flask, providing an interactive Web interface for conversations with the **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** model. The project supports streaming responses and features Light/Dark theme switching. For more details, please visit .
 
 ---
 
@@ -179,6 +179,20 @@ Visit `http://127.0.0.1:5000` to use the WebUI.
   - **Configuration:** Restructured v1.5.0 uses a new configuration format.
   - **API Changes:** Some API endpoints have been adjusted; users transitioning from v1.0.0 need to adapt to the new API rules.
 
+### v1.6.0
+
+- **Main Improvements:**
+  - Codebase refactoring: Optimized frontend-backend communication via APIs to improve maintainability.
+  - UI enhancement: Added a "Generating content..." real-time status indicator to elevate user experience.
+  - Streaming transmission & generation: Implemented streaming support for content delivery and generation, ensuring smoother interactions.
+
+### v1.6.1
+- **Major Improvements**
+  - Fix existing bugs
+  - Fix missing dependency download in `scripts\model_downloader.py`
+- **Issue Explanation
+  - For the issue in [#3](#3) , 1.5B and other quantitative models (which have not been tested to exist) are model problems due to their quantitative nature and the “not answering the question” problem after a long run. It is recommended that you re-download the model and run `pip uninstall transformers` before running `python scripts\model_downloader.py` to re-install the dependencies.
+  
 ---
 
 ## Configuration Items Explanation

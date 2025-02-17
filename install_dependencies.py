@@ -87,7 +87,7 @@ def main():
             print("无效输入，请输入 'y' 或 'n'。")
     
     # 安装其他依赖 
-    other_packages = "pip3 install transformers accelerate sentencepiece flask"
+    other_packages = "pip3 install transformers flask-cors==4.0.0 python-dotenv==1.0.0 accelerate sentencepiece flask"
     if not run_command(other_packages):
         print("其他依赖安装失败，退出安装...")
         return 
