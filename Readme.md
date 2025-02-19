@@ -199,7 +199,7 @@ python run.py
   - 修复存在的BUG
   - 修改`scripts\model_downloader.py`中的依赖下载缺失问题
 - **问题解释**
-  - 对于 [#3](#3) 中的问题，1.5B及其他量化模型（未测试存在哪些模型）由于其量化性质，在长期运行后出现“答非所问”问题是模型问题。出现此问题建议您重新下载模型，并且运行`pip uninstall transformers`后再执行`python scripts\model_downloader.py`重新安装依赖。
+  - 对于 #3 中的问题，1.5B及其他量化模型（未测试存在哪些模型）由于其量化性质，在长期运行后出现“答非所问”问题是模型问题。出现此问题建议您重新下载模型，并且运行`pip uninstall transformers`后再执行`python scripts\model_downloader.py`重新安装依赖。
 
 ---
 

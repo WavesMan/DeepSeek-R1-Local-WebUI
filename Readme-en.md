@@ -191,7 +191,7 @@ Visit `http://127.0.0.1:5000` to use the WebUI.
   - Fix existing bugs
   - Fix missing dependency download in `scripts\model_downloader.py`
 - **Issue Explanation
-  - For the issue in [#3](#3) , 1.5B and other quantitative models (which have not been tested to exist) are model problems due to their quantitative nature and the “not answering the question” problem after a long run. It is recommended that you re-download the model and run `pip uninstall transformers` before running `python scripts\model_downloader.py` to re-install the dependencies.
+  - For the issue in #3 , 1.5B and other quantitative models (which have not been tested to exist) are model problems due to their quantitative nature and the “not answering the question” problem after a long run. It is recommended that you re-download the model and run `pip uninstall transformers` before running `python scripts\model_downloader.py` to re-install the dependencies.
   
 ---
 
