@@ -23,37 +23,40 @@
 ## 项目结构
 
 ```
-DeepSeek-R1-Local-WebUI               
-├─ config                       
-│  ├─ generation.py             
-│  ├─ webui.py                  
-│  └─ __init__.py               
-├─ core                         
-│  ├─ generator.py              
-│  ├─ model_manager.py          
-│  └─ __init__.py                            
-├─ scripts                      
-│  ├─ memory_monitor.py         
-│  └─ model_downloader.py       
-├─ static                       
-│  ├─ css                       
-│  │  └─ styles.css             
-│  └─ js                        
-│     └─ script.js              
-├─ templates                    
-│  └─ index.html                
-├─ web                          
-│  ├─ routes.py                 
-│  ├─ utils.py                  
-│  └─ __init__.py               
-├─ DeepSeek-R1_LICENSE          
-├─ install_dependencies.py      
-├─ LICENSE                      
-├─ model_path.txt               
-├─ Readme-en.md                 
-├─ Readme.md                    
-├─ requirements.txt             
-└─ run.py                       
+DeepSeek-R1-Local-WebUI                 
+├─ config                   # 配置项                   
+│  ├─ generation.py                     
+│  ├─ webui.py                          
+│  └─ __init__.py                       
+├─ core                     # 核心代码                   
+│  ├─ generator.py                      
+│  ├─ model_manager.py                  
+│  └─ __init__.py                                              
+├─ scripts                  # 核心脚本            
+│  ├─ memory_monitor.py                 
+│  └─ model_downloader.py               
+├─ static                   # 静态资源            
+│  ├─ css                               
+│  │  └─ app.d8079a91.css               
+│  └─ js                                
+│     ├─ about.ddee9fe6.js              
+│     ├─ about.ddee9fe6.js.map          
+│     ├─ app.20cd43bb.js                
+│     ├─ app.20cd43bb.js.map            
+│     ├─ chunk-vendors.28b75eeb.js      
+│     └─ chunk-vendors.28b75eeb.js.map  
+├─ templates                # 模板文件                
+│  └─ index.html                        
+├─ web                      # 主程序                   
+│  ├─ routes.py                         
+│  ├─ utils.py                          
+├─ DeepSeek-R1_LICENSE      # DeepSeek-R1 许可证文件
+├─ install_dependencies.py  # 安装依赖脚本
+├─ LICENSE                  # 许可证文件
+├─ Readme-en.md             
+├─ Readme.md                
+├─ requirements.txt         # 依赖文件
+└─ run.py                   # 启动脚本
 ```
 
 ---

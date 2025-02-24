@@ -23,36 +23,39 @@
 
 ```
 DeepSeek-R1-Local-WebUI
-├─ config
-│  ├─ generation.py
-│  ├─ webui.py
-│  └─ __init__.py
-├─ core
-│  ├─ generator.py
-│  ├─ model_manager.py
-│  └─ __init__.py
-├─ scripts
-│  ├─ memory_monitor.py
-│  └─ model_downloader.py
-├─ static
-│  ├─ css
-│  │  └─ styles.css
-│  └─ js
-│     └─ script.js
-├─ templates
-│  └─ index.html
-├─ web
-│  ├─ routes.py
-│  ├─ utils.py
-│  └─ __init__.py
-├─ DeepSeek-R1_LICENSE
-├─ install_dependencies.py
-├─ LICENSE
-├─ model_path.txt
+├─ config                    # Configuration Items
+│ ├─ generation.py
+│ ├─ webui.py
+│ └─ init.py
+├─ core                      # Core Code
+│ ├─ generator.py
+│ ├─ model_manager.py
+│ └─ init.py
+├─ scripts                   # Core Scripts
+│ ├─ memory_monitor.py
+│ └─ model_downloader.py
+├─ static                    # Static Resources
+│ ├─ css
+│ │ └─ app.d8079a91.css
+│ └─ js
+│ ├─ about.ddee9fe6.js
+│ ├─ about.ddee9fe6.js.map
+│ ├─ app.20cd43bb.js
+│ ├─ app.20cd43bb.js.map
+│ ├─ chunk-vendors.28b75eeb.js
+│ └─ chunk-vendors.28b75eeb.js.map
+├─ templates                  # Template Files
+│ └─ index.html
+├─ web                        # Main Program
+│ ├─ routes.py
+│ ├─ utils.py
+├─ DeepSeek-R1_LICENSE        # DeepSeek-R1 License File
+├─ install_dependencies.py    # Dependency Installation Script
+├─ LICENSE # License File
 ├─ Readme-en.md
 ├─ Readme.md
-├─ requirements.txt
-└─ run.
+├─ requirements.txt           # Dependency Files
+└─ run.py                     # Startup Script
 ```
 
 ---
