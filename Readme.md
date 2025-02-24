@@ -199,8 +199,12 @@ python run.py
   - 修复存在的BUG
   - 修改`scripts\model_downloader.py`中的依赖下载缺失问题
 - **问题解释**
-  - 对于 #3 中的问题，1.5B及其他量化模型（未测试存在哪些模型）由于其量化性质，在长期运行后出现“答非所问”问题是模型问题。出现此问题建议您重新下载模型，并且运行`pip uninstall transformers`后再执行`python scripts\model_downloader.py`重新安装依赖。
+  - 对于 [#3](https://github.com/WavesMan/DeepSeek-R1-Local-WebUI/issues/3) 中的问题，1.5B及其他量化模型（未测试存在哪些模型）由于其量化性质，在长期运行后出现“答非所问”问题是模型问题。出现此问题建议您重新下载模型，并且运行`pip uninstall transformers`后再执行`python scripts\model_downloader.py`重新安装依赖。
 
+### v1.6.2
+- **主要改进**
+  - 重构前端，采用Vue3+JavaScript+Vite+Pinia实现 
+  
 ---
 
 ## 配置项说明
@@ -241,7 +245,7 @@ python run.py
 ## 许可证
 
 本项目遵循 DeepSeek-R1 的 [MIT 许可证](DeepSeek-R1_LICENSE)
-本项目基于 [MIT 许可证](LICENSE) 开源。
+<br>本项目基于 [MIT 许可证](LICENSE) 开源。
 
 ---
 
@@ -267,4 +271,4 @@ python run.py
 
 ---
 
-希望这个 `README.md` 能帮助你更好地展示项目！如果有其他需求，欢迎随时补充或修改！
+希望这个 `Readme.md` 能帮助你更好地展示项目！如果有其他需求，欢迎随时补充或修改！

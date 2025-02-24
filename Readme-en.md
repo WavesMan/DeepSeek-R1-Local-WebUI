@@ -191,7 +191,11 @@ Visit `http://127.0.0.1:5000` to use the WebUI.
   - Fix existing bugs
   - Fix missing dependency download in `scripts\model_downloader.py`
 - **Issue Explanation
-  - For the issue in #3 , 1.5B and other quantitative models (which have not been tested to exist) are model problems due to their quantitative nature and the “not answering the question” problem after a long run. It is recommended that you re-download the model and run `pip uninstall transformers` before running `python scripts\model_downloader.py` to re-install the dependencies.
+  - For the issue in [#3](https://github.com/WavesMan/DeepSeek-R1-Local-WebUI/issues/3) , 1.5B and other quantitative models (which have not been tested to exist) are model problems due to their quantitative nature and the “not answering the question” problem after a long run. It is recommended that you re-download the model and run `pip uninstall transformers` before running `python scripts\model_downloader.py` to re-install the dependencies.
+  
+### v1.6.2
+- **Major improvements**
+  - Refactored front-end, implemented with Vue3+JavaScript+Vite+Pinia 
   
 ---
 
@@ -235,11 +239,12 @@ We welcome issues and pull requests to improve the project! If you have any ques
 
 ## License 
 
-This project is under the MIT license, following the DeepSeek-R1's MIT license. [DeepSeek-R1_LICENSE](DeepSeek-R1_LICENSE)
+This project follows the [MIT License](DeepSeek-R1_LICENSE) of DeepSeek-R1
+<br>This project is based on the [MIT License](LICENSE) open source
 
 ---
 
-## Thank you
+## Thanks
 
 - **DeepSeek Team** : Provide the **DeepSeek R1** model.
 - **Flask** : Provides lightweight Web framework.
@@ -260,4 +265,4 @@ Support the project by becoming a sponsor. Your support helps keep this project 
 | 🌟 PayPal      | [Donate via PayPal](https://paypal.me/wavesman)                |
 
 ---
-I hope this `README.md` will help you present your project better! If there are other needs, please feel free to supplement or modify!
+I hope this `Readme-en.md` will help you present your project better! If there are other needs, please feel free to supplement or modify!

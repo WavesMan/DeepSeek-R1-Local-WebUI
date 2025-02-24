@@ -68,9 +68,9 @@ if __name__ == "__main__":
     
     # 关键修改：正确初始化Flask应用
     app = Flask(__name__,
-        template_folder='templates',
+        static_url_path='/static',
         static_folder='static',
-        static_url_path='/static'
+        template_folder='templates'
     )
     
     from web.routes import create_routes

@@ -18,13 +18,20 @@ from flask import (
 def create_routes(model_manager):
     bp = Blueprint('main', __name__)
 
-    @bp.route('/')
-    def index():
-        """主入口页面"""
-        return render_template(
-            'index.html',
+    @bp.route('/', defaults={'path': ''})
+    @bp.route('/<path:path>')
+    def index(path):
+        """主入口页面，处理所有前端路由"""
+        return render_template('index.html',
             AI_WARNING_MESSAGE="本内容由 AI 生成，仅供参考"
         )
+
+    # 处理API请求跨域问题
+    @bp.after_request
+    def add_cors_headers(response):
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+        return response
 
     @bp.route('/api/health')
     def health_check():
