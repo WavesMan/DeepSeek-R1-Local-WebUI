@@ -1,98 +1,85 @@
-import subprocess 
-import sys 
-import platform 
- 
-def run_command(command):
-    """运行命令并捕获输出"""
+# install_dependencies.py
+import os
+import sys
+import questionary
+import subprocess
+from rich.console import Console
+
+console = Console()
+
+def install_deps(use_mirror=False, cuda_version=None):
+    """安装依赖核心逻辑"""
     try:
-        result = subprocess.run( 
-            command,
-            check=True,
-            shell=True,
-            capture_output=True,
-            text=True 
-        )
-        print("成功执行命令:")
-        print(result.stdout.strip()) 
-        return True 
+        console.rule("[bold]正在安装依赖")
+        
+        # PyTorch安装
+        torch_cmd = "pip install torch torchvision torchaudio"
+        if cuda_version and cuda_version >= 12.1:
+            torch_cmd += " --index-url https://download.pytorch.org/whl/cu121"
+        else:
+            torch_cmd += " --cpu"
+        
+        if use_mirror:
+            torch_cmd += " -i https://mirrors.aliyun.com/pypi/simple/"
+        
+        console.print(f"[cyan]步骤 1/2: 安装PyTorch[/]\n{torch_cmd}")
+        subprocess.run(torch_cmd, shell=True, check=True)
+        
+        # 其他依赖
+        other_deps = ["transformers", "accelerate", "sentencepiece", "flask", ]
+        dep_cmd = f"pip install {' '.join(other_deps)}"
+        if use_mirror:
+            dep_cmd += " -i https://mirrors.aliyun.com/pypi/simple/"
+        
+        console.print(f"\n[cyan]步骤 2/2: 安装其他依赖[/]\n{dep_cmd}")
+        subprocess.run(dep_cmd, shell=True, check=True)
+        
+        console.print("[bold green]✅ 所有依赖安装完成![/]")
+        return True
     except subprocess.CalledProcessError as e:
-        print(f"错误：{e}")
-        print(f"命令输出:\n{e.output}") 
-        return False 
- 
-def get_cuda_version():
-    """检测系统中安装的 CUDA 版本"""
+        console.print(f"[bold red]❌ 安装失败: {e.stderr}[/]")
+        return False
+
+def check_cuda():
+    """检测CUDA版本"""
     try:
-        result = subprocess.run( 
+        result = subprocess.run(
             "nvcc --version",
             shell=True,
             capture_output=True,
-            text=True 
+            text=True
         )
-        output = result.stdout.strip() 
-        if "release" in output:
-            version_line = output.split("release")[1].split(",")[0].strip() 
-            version = version_line.split()[0] 
-            return version 
-        return None 
-    except subprocess.CalledProcessError:
-        return None 
- 
-def main():
-    print("开始安装依赖项...")
-    
-    # 检测 CUDA 版本 
-    cuda_version = get_cuda_version()
-    if cuda_version:
-        print(f"检测到 CUDA 版本: {cuda_version}")
-    else:
-        print("未检测到 CUDA 或 nvcc 未安装。")
+        if "release" in result.stdout:
+            version_str = result.stdout.split("release")[1].split(",")[0].strip()
+            return float(version_str)
+        return None
+    except Exception:
+        return None
 
-    # 询问用户是否使用阿里云镜像源 
-    while True:
-        user_input = input("\n是否使用阿里云镜像源加速安装？(y/n): ").strip().lower()
-        if user_input == 'y':
-            mirror_url = "--mirror-url https://mirrors.aliyun.com/pypi/simple/" 
-            print("\n将使用阿里云镜像源进行安装...")
-            break 
-        elif user_input == 'n':
-            mirror_url = ""
-            print("\n将使用默认源进行安装...")
-            break 
-        else:
-            print("无效输入，请输入 'y' 或 'n'。")
+def interactive_install():
+    """交互式安装入口"""
+    console.print("[bold]🔧 依赖安装向导[/]")
     
-    # 询问用户是否已安装 CUDA 12.1+
-    while True:
-        user_input = input("\n是否已经安装 CUDA 12.1 或更高版本？(y/n): ").strip().lower()
-        if user_input == 'y':
-            # 安装带 CUDA 支持的 PyTorch 
-            pytorch_command = (
-                "pip3 install torch torchvision torchaudio "
-                "--index-url https://download.pytorch.org/whl/cu121" 
-            )
-            if not run_command(pytorch_command):
-                print("PyTorch 安装失败，退出安装...")
-                return 
-            break 
-        elif user_input == 'n':
-            # 安装 CPU 版本的 PyTorch 
-            print("\n将安装 CPU 版本的 PyTorch...")
-            pytorch_command = "pip3 install torch torchvision torchaudio --cpu"
-            if not run_command(pytorch_command):
-                print("PyTorch 安装失败，退出安装...")
-                return 
-            break 
-        else:
-            print("无效输入，请输入 'y' 或 'n'。")
+    # 镜像源选择
+    use_mirror = questionary.select(
+        "选择PyPI镜像源:",
+        choices=[
+            questionary.Choice("阿里云镜像（推荐）", True),
+            questionary.Choice("官方源", False),
+        ],
+        default=True
+    ).ask()
     
-    # 安装其他依赖 
-    other_packages = "pip3 install transformers flask-cors==4.0.0 python-dotenv==1.0.0 accelerate sentencepiece flask"
-    if not run_command(other_packages):
-        print("其他依赖安装失败，退出安装...")
-        return 
+    # CUDA检测
+    cuda_ver = check_cuda()
+    if cuda_ver:
+        console.print(f"[green]✔ 检测到CUDA {cuda_ver}[/]")
+        install_cuda = cuda_ver >= 12.1
+    else:
+        console.print("[yellow]⚠ 未检测到CUDA[/]")
+        install_cuda = questionary.confirm("是否安装CPU版本？", default=True).ask()
     
-    print("所有依赖安装完成！")
- 
+    return install_deps(use_mirror, cuda_ver)
+
 if __name__ == "__main__":
-    main()
+    interactive_install()

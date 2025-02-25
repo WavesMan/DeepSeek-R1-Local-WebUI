@@ -7,12 +7,13 @@
 
 ---
 
-**DeepSeek-R1-Local-WebUI** 是一个基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应，并提供了 Light/Dark 主题切换功能。
+**DeepSeek-R1-Local-WebUI** 是通过Cli控制台启动，基于 Flask 的本地模型部署项目，提供了一个交互式的 Web 界面，用于与 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型进行对话。项目支持流式生成响应，并提供了 Light/Dark 主题切换功能。
 
 ---
 
 ## 项目功能
 
+- **Cli控制台** ：通过Cli控制台管理项目。
 - **本地模型部署**：使用 Hugging Face 的 `transformers` 库加载并运行 **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** 模型。
 - **Web 交互界面**：通过 Flask 提供 Web 服务，用户可以在浏览器中与模型进行对话。
 - **主题切换**：支持 Light/Dark 主题切换，提升用户体验。
@@ -56,7 +57,7 @@ DeepSeek-R1-Local-WebUI
 ├─ Readme-en.md             
 ├─ Readme.md                
 ├─ requirements.txt         # 依赖文件
-└─ run.py                   # 启动脚本
+└─ cli.py                   # Cli启动脚本
 ```
 
 ---
@@ -81,24 +82,17 @@ cd DeepSeek-R1-Local-WebUI
 2. 安装依赖
 
 ```bash
-py -3.11 -m venv deepseek_env        # 创建虚拟环境
+py -m venv deepseek_env              # 创建虚拟环境
 .\deepseek_env\Scripts\activate      # 激活虚拟环境
-python install_dependencies.py       # 安装依赖
+pip install -r cli-require.txt       # 安装依赖
 ```
 
-3. 下载模型
-
-运行以下脚本下载 **DeepSeek-R1** 模型：
+3. 运行Cli
 ```bash
-python scripts\model_downloader.py
+python cli.py                      # 运行Cli
 ```
 
-4. 手动启动（Windows）
-```bash
-python run.py
-```
-
-5. 访问WebUI
+3. 访问WebUI
 访问 `http://127.0.0.1:5000` 即可使用 WebUI。
 
 
@@ -116,23 +110,15 @@ cd DeepSeek-R1-Local-WebUI
 ```bash
 python -m venv deepseek_env        # 创建虚拟环境
 source deepseek_env/bin/activate   # 激活虚拟环境
-python install_dependencies.py     # 安装依赖
+pip install -r cli-require.txt     # 安装依赖
 ```
 
-3. 下载模型
-
-运行以下脚本下载 **DeepSeek-R1** 模型：
+3. 运行Cli
 ```bash
-python scripts\model_downloader.py
+python cli.py                      # 运行Cli
 ```
 
-4. 手动启动（Linux/Mac）
-```bash
-python run.py
-```
-访问 `http://127.0.0.1:5000` 即可使用 WebUI。
-
-5. 访问WebUI
+4. 访问WebUI
 访问 `http://127.0.0.1:5000` 即可使用 WebUI。
 
 ---
@@ -206,8 +192,16 @@ python run.py
 
 ### v1.6.2
 - **主要改进**
-  - 重构前端，采用Vue3+JavaScript+Vite+Pinia实现 
-  
+  - 重构前端：采用Vue3+JavaScript+Vite+Pinia实现 
+
+
+### v1.7.0-1(pre-release)
+- **重要更新**
+  - 重构启动方式：构建了Cli控制台，简化了项目操作逻辑
+  - 添加Cli修改前端访问路径
+- **计划更新**
+  - Plugin：计划添加插件功能，提升拓展性
+
 ---
 
 ## 配置项说明

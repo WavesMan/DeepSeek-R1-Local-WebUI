@@ -2,6 +2,7 @@
 import os
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from config import MODEL_CONFIG
 
 class ModelManager:
     def __init__(self, model_path):
@@ -24,18 +25,18 @@ class ModelManager:
         total_memory = torch.cuda.get_device_properties(0).total_memory
         print(f"GPU Total Memory: {total_memory / 1024 ** 3:.2f} GB")
         
-        reserved_memory = 1 * 1024 ** 3  # 1GB
+        reserved_memory = MODEL_CONFIG.reserved_memory * 1024**3
         max_memory = total_memory - reserved_memory
         memory_fraction = max_memory / total_memory
         torch.cuda.set_per_process_memory_fraction(memory_fraction, device=0)
         print(f"Set max memory limit: {max_memory / 1024 ** 3:.2f} GB")
 
     def _load_model(self):
-        print(f"Loading model from {self.model_path}...")
+        print(f"从路径加载模型中： {self.model_path}...")
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.model = AutoModelForCausalLM.from_pretrained(self.model_path)
         self.model = self.model.to(self.device)
-        print("Model loaded successfully.")
+        print("模型加载成功")
 
     def create_streamer(self):
         return TextStreamer(

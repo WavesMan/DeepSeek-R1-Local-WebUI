@@ -6,12 +6,13 @@
 
 ---
 
-**DeepSeek-R1-Local-WebUI** is a local model deployment project based on Flask, providing an interactive Web interface for conversations with the **[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)** model. The project supports streaming responses and features Light/Dark theme switching. For more details, please visit .
+**DeepSeek-R1-Local-WebUI** is a Flask-based local model deployment project launched via a CLI console. It provides an interactive web interface for conversing with the [DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1) model. The project supports streaming response generation and offers Light/Dark theme switching.
 
 ---
 
 ## Project Functionality
 
+- **CLI Console**: Manage the project through a command-line interface.
 - **Local Model Deployment:** Uses Hugging Face's transformers library to load and run the [DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1) model.
 - **Web Interface:** Provides Web services through Flask, allowing users to converse with the model in their browser.
 - **Theme Switching:** Supports switching between Light and Dark themes to enhance user experience.
@@ -22,40 +23,40 @@
 ## Project Structure
 
 ```
-DeepSeek-R1-Local-WebUI
-├─ config                    # Configuration Items
-│ ├─ generation.py
-│ ├─ webui.py
-│ └─ init.py
-├─ core                      # Core Code
-│ ├─ generator.py
-│ ├─ model_manager.py
-│ └─ init.py
-├─ scripts                   # Core Scripts
-│ ├─ memory_monitor.py
-│ └─ model_downloader.py
-├─ static                    # Static Resources
-│ ├─ css
-│ │ └─ app.d8079a91.css
-│ └─ js
-│ ├─ about.ddee9fe6.js
-│ ├─ about.ddee9fe6.js.map
-│ ├─ app.20cd43bb.js
-│ ├─ app.20cd43bb.js.map
-│ ├─ chunk-vendors.28b75eeb.js
-│ └─ chunk-vendors.28b75eeb.js.map
-├─ templates                  # Template Files
-│ └─ index.html
-├─ web                        # Main Program
-│ ├─ routes.py
-│ ├─ utils.py
-├─ DeepSeek-R1_LICENSE        # DeepSeek-R1 License File
-├─ install_dependencies.py    # Dependency Installation Script
-├─ LICENSE # License File
-├─ Readme-en.md
-├─ Readme.md
-├─ requirements.txt           # Dependency Files
-└─ run.py                     # Startup Script
+DeepSeek-R1-Local-WebUI                 
+├─ config                   # Configurations                   
+│  ├─ generation.py                      
+│  ├─ webui.py                           
+│  └─ __init__.py                        
+├─ core                     # Core Code                   
+│  ├─ generator.py                       
+│  ├─ model_manager.py                   
+│  └─ __init__.py                                                
+├─ scripts                  # Core Scripts            
+│  ├─ memory_monitor.py                  
+│  └─ model_downloader.py                
+├─ static                   # Static Resources            
+│  ├─ css                                
+│  │  └─ app.d8079a91.css                
+│  └─ js                                 
+│     ├─ about.ddee9fe6.js               
+│     ├─ about.ddee9fe6.js.map           
+│     ├─ app.20cd43bb.js                 
+│     ├─ app.20cd43bb.js.map             
+│     ├─ chunk-vendors.28b75eeb.js       
+│     └─ chunk-vendors.28b75eeb.js.map   
+├─ templates                # Template Files                
+│  └─ index.html                         
+├─ web                      # Main Program                   
+│  ├─ routes.py                          
+│  ├─ utils.py                           
+├─ DeepSeek-R1_LICENSE      # DeepSeek-R1 License File
+├─ install_dependencies.py  # Dependency Installation Script
+├─ LICENSE                  # License File
+├─ Readme-en.md             
+├─ Readme.md                
+├─ requirements.txt         # Dependency Files
+└─ cli.py                   # CLI Startup Script
 ```
 
 ---
@@ -76,24 +77,19 @@ git clone https://github.com/WavesMan/DeepSeek-R1-Local-WebUI.git
 cd DeepSeek-R1-Local-WebUI
 ```
 
-3. Install dependencies
+2. Install dependencies
  ```bash
- py -3.11 -m venv deepseek_env       # Create a virtual environment
-.\deepseek_env\Scripts\activate      # Activate the virtual environment
-python install_dependencies.py       # Install dependencies
+py -m venv deepseek_env              # Create virtual environment
+.\deepseek_env\Scripts\activate      # Activate environment
+pip install -r cli-require.txt       # Install dependencies
 ```
 
-1. Download the model
+3. Run the CLI:
 ```bash
-python scripts\model_downloader.py
+python cli.py                        # Start CLI
 ```
 
-2. Manually start (Windows)
-```bash
-python run.py
-```
-
-3. Access WebUI
+4. Access WebUI
 Visit `http://127.0.0.1:5000` to use the WebUI.
 
 ### Linux/Mac
@@ -105,23 +101,18 @@ cd DeepSeek-R1-Local-WebUI
 ```
 
 2. Install dependencies
-```sh
-python -m venv deepseek_env        # Create a virtual environment
-source deepseek_env/bin/activate   # Activate the virtual environment
-python install_dependencies.py     # Install dependencies
+ ```bash
+py -m venv deepseek_env              # Create virtual environment
+.\deepseek_env\Scripts\activate      # Activate environment
+pip install -r cli-require.txt       # Install dependencies
 ```
 
-3. Download the model
-```sh
-python scripts\model_downloader.py
+3. Run the CLI:
+```bash
+python cli.py                        # Start CLI
 ```
 
-4. Manually start (Linux/Mac)
-```sh
-python run.py
-```
-
-5. Access WebUI
+4. Access WebUI
 Visit `http://127.0.0.1:5000` to use the WebUI.
 
 ---
@@ -199,6 +190,13 @@ Visit `http://127.0.0.1:5000` to use the WebUI.
 ### v1.6.2
 - **Major improvements**
   - Refactored front-end, implemented with Vue3+JavaScript+Vite+Pinia 
+
+### v1.7.0-1 (Pre-release)
+- **Main Improvements:**
+  - **CLI-based** startup simplifies operations.
+  - Configurable frontend access paths.
+- **Planned:**
+  - Plugin system for extensibility.
   
 ---
 
